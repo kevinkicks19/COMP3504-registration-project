@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Main Page</title>
+		<link rel="stylesheet" href="styles.css">
+		<script defer src="main.js"></script>
+	</head>
+<body>
+	<header>
+		<h1>Welcome to the Conference Portal</h1>
+		<nav>
+			<a href="#browseConferences">Browse Conferences</a>
+			<a href="#createConference">Create Conference</a>
+			<a href="#attendConference">Attend Conference</a>
+		</nav>
+	</header>
+
+	<!-- Browse Conferences Section -->
+	<section id="browseConferences">
+		<h2>Available Conferences</h2>
+		<ul>
+			<li>Conference 1 - <a href="#">Details</a></li>
+			<li>Conference 2 - <a href="#">Details</a></li>
+			<!-- Additional conferences dynamically added here -->
+		</ul>
+	</section>
+
+	<!-- Create Conference Section -->
+	<section id="createConference">
+		<h2>Create a Conference</h2>
+		<form id="createConferenceForm">
+
+			<label for="confTitle">Conference Title:</label>
+			<input type="text" id="confTitle" name="confTitle" required>
+
+			<br><br>
+
+			<label for="confDate">Date:</label>
+			<input type="date" id="confDate" name="confDate" required>
+
+			<br><br>
+
+			<label for="confLocation">Location:</label>
+			<input type="text" id="confLocation" name="confLocation" required>
+
+			<br><br>
+
+			<label for="confDescription">Description:</label>
+			<textarea id="confDescription" name="confDescription" required></textarea>
+
+			<br><br>
+
+			<button type="submit">Create Conference</button>
+		</form>
+	</section>
+
+	<!-- Attend Conference Section -->
+	<section id="attendConference">
+		<h2>Attend a Conference</h2>
+		<form id="attendConferenceForm">
+			<label for="role">Attendee Role:</label>
+			<select id="role" name="role" onchange="toggleAuthorFields()">
+			<option value="regular">Regular Attendee</option>
+			<option value="author">Author</option>
+			</select>
+
+			<div id="authorFields" style="display: none;">
+			<label for="paperTitle">Paper Title:</label>
+			<input type="text" id="paperTitle" name="paperTitle">
+
+			<label for="paperUpload">Upload Paper:</label>
+			<input type="file" id="paperUpload" name="paperUpload">
+			</div>
+
+			<label for="paymentInfo">Payment Information:</label>
+			<input type="text" id="paymentInfo" name="paymentInfo" required>
+
+			<div>
+			<input type="checkbox" id="terms" name="terms" required>
+			<label for="terms">I agree to the terms and conditions</label>
+			</div>
+
+			<button type="submit">Submit</button>
+		</form>
+	</section>
+</body>
+</html>

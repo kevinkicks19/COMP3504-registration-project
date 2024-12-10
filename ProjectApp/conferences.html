@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Conferences</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Available Conferences</h1>
+        <nav>
+            <a href="index.php">Back to Home</a>
+        </nav>
+    </header>
+    <div id="venue-container">
+        <div id="venue-card">
+            <!-- Conference details will be displayed here -->
+        </div>
+        <button id="next-conference" class="button">Next Conference</button>
+    </div>
+    <footer>
+        <p>&copy; 2024 MindVenture Conference App</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+    let currentIndex = 0;
+    let venues = [];
+
+    const venueCard = document.getElementById('venue-card');
+    const nextButton = document.getElementById('next-conference');
+
+    async function fetchVenues() {
+        console.log('Fetching venues...');
+        try {
+            const response = await fetch('http://35.209.245.183:3000/api/venues');
+            if (!response.ok) {
+                throw new Error('Failed to fetch venues');
+            }
+            venues = await response.json();
+            console.log('Venues fetched:', venues);
+            if (venues.length > 0) {
+                displayConference(currentIndex);
+            } else {
+                venueCard.innerHTML = '<p>No conferences available at the moment.</p>';
+                nextButton.style.display = 'none'; // Hide the button if no conferences
+            }
+        } catch (error) {
+            console.error('Error fetching venues:', error);
+            venueCard.innerHTML = '<p>Error fetching conferences. Please try again later.</p>';
+            nextButton.style.display = 'none'; // Hide the button on error
+        }
+    }
+
+    function displayConference(index) {
+        if (index < venues.length) {
+            const venue = venues[index];
+            venueCard.innerHTML = `
+                <div class="venue-card">
+                    <h2>${venue.name}</h2>
+                    <p><strong>Location:</strong> ${venue.location}</p>
+                    <p><strong>Date:</strong> ${venue.date}</p>
+                    <p><strong>Start Time:</strong> ${venue.start_time}</p>
+                    <p><strong>End Time:</strong> ${venue.end_time}</p>
+                    <p><strong>Description:</strong> ${venue.description}</p>
+                    <p><strong>Registration Fee:</strong> $${venue.registration_fee}</p>
+                    <p><strong>Capacity:</strong> ${venue.max_capacity} attendees</p>
+                    <button class="register-btn" data-venue-id="${venue.ID}">Register</button>
+                </div>
+            `;
+        } else {
+            venueCard.innerHTML = '<p>You have reached the end of the list.</p>';
+            nextButton.style.display = 'none';
+        }
+    }
+
+    nextButton.addEventListener('click', () => {
+        currentIndex++;
+        displayConference(currentIndex);
+    });
+
+    // Handle registration
+    venueCard.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('register-btn')) {
+            const venueID = event.target.dataset.venueId;
+            const userID = 1; // Replace this with a default userID or keep it simple for the test case
+
+            try {
+                const registerResponse = await fetch('http://35.209.245.183:3000/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userID, venueID }),
+                });
+
+                const registerResult = await registerResponse.json();
+                if (registerResponse.ok) {
+                    alert('Successfully registered for the conference.');
+                } else {
+                    alert(`Failed to register: ${registerResult.message}`);
+                }
+            } catch (error) {
+                console.error('Error during registration:', error);
+                alert('An error occurred during registration.');
+            }
+        }
+    });
+
+    // Fetch and display the first conference on page load
+    fetchVenues();
+});
+</script>
+</body>
+</html>

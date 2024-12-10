@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Selection</title>
+  <link rel="stylesheet" href="styles/eventSelectionStyles.css">
+</head>
+<body>
+  <header>
+    <h1>Select an Event or Conference</h1>
+    <p>Choose an event from the list below and click "Register" to join.</p>
+  </header>
+
+  <main>
+    <!-- Event Card 1 -->
+    <div class="event-card">
+      <h3>Tech Innovators Conference 2024</h3>
+      <p><strong>Location:</strong> San Francisco, CA</p>
+      <p><strong>Date:</strong> 2024-12-15</p>
+      <p><strong>Time:</strong> 10:00 AM - 5:00 PM</p>
+      <p><strong>Description:</strong> Join industry leaders in technology for a day of keynotes, workshops, and networking opportunities.</p>
+      <p><strong>Registration Fee:</strong> $299.99</p>
+      <p><strong>Max Capacity:</strong> 500 attendees</p>
+      <p><strong>Type:</strong> Conference</p>
+      <button class="register-button" onclick="registerEvent('Tech Innovators Conference 2024')">Register</button>
+    </div>
+
+    <!-- Event Card 2 -->
+    <div class="event-card">
+      <h3>Global Health Summit</h3>
+      <p><strong>Location:</strong> New York, NY</p>
+      <p><strong>Date:</strong> 2024-12-20</p>
+      <p><strong>Time:</strong> 9:00 AM - 3:00 PM</p>
+      <p><strong>Description:</strong> A conference bringing together experts from around the world to discuss advancements in global health.</p>
+      <p><strong>Registration Fee:</strong> $149.99</p>
+      <p><strong>Max Capacity:</strong> 300 attendees</p>
+      <p><strong>Type:</strong> Seminar</p>
+      <button class="register-button" onclick="registerEvent('Global Health Summit')">Register</button>
+    </div>
+
+    <!-- Event Card 3 -->
+    <div class="event-card">
+      <h3>Art & Design Expo 2024</h3>
+      <p><strong>Location:</strong> Los Angeles, CA</p>
+      <p><strong>Date:</strong> 2024-12-10</p>
+      <p><strong>Time:</strong> 12:00 PM - 8:00 PM</p>
+      <p><strong>Description:</strong> Celebrate creativity at the Art & Design Expo, featuring exhibits and workshops from top artists and designers.</p>
+      <p><strong>Registration Fee:</strong> $99.99</p>
+      <p><strong>Max Capacity:</strong> 1000 attendees</p>
+      <p><strong>Type:</strong> Festival</p>
+      <button class="register-button" onclick="registerEvent('Art & Design Expo 2024')">Register</button>
+    </div>
+  </main>
+
+  <script>
+    function registerEvent(eventName) {
+      alert(`You have selected: ${eventName}`);
+      console.log(`Event registered: ${eventName}`);
+    }
+  </script>
+</body>
+</html>

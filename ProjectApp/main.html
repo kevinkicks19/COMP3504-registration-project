@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to MindVenture Conference App</h1>
+    </header>
+    <header class="taskbar">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="login.php">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="user.html">Profile</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="left-section">
+            <div class="logo">
+                <h1>
+                    <img src="Images/logo.png" alt="MindVenture Logo">
+                </h1>
+            </div>
+            <h1>Event Conference</h1>
+            <p>Our conferences are venues for researchers to present 
+                their work and learn from others' work. 
+                You may register to attend conferences as an author 
+                (present their authored paper) or as a regular attendee.</p>
+            <div class="menu-options">
+                <button id="browse-conferences" onclick="window.location.href='conferences.html';">Browse Conferences</button>
+                <a href="#logout" class="logout-btn">Log Out</a>
+            </div>
+        </div>
+        
+        <div class="right-section">
+            <h2>Create a New Conference</h2>
+            <form id="create-conference-form">
+                <input type="text" id="conference-name" placeholder="Conference Name" required>
+                <input type="text" id="conference-location" placeholder="Location" required>
+                <input type="date" id="conference-date" required>
+                <input type="time" id="start-time" required>
+                <input type="time" id="end-time" required>
+                <textarea id="conference-description" placeholder="Description"></textarea>
+                <input type="number" id="registration-fee" placeholder="Registration Fee" required>
+                <input type="number" id="max-capacity" placeholder="Maximum Capacity" required>
+                <button type="submit">Create Conference</button>
+            </form>
+            <div id="message" style="margin-top: 10px; color: green;"></div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 MindVenture Conference App</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const createConferenceForm = document.getElementById('create-conference-form');
+            const messageDiv = document.getElementById('message');
+
+            if (createConferenceForm) {
+                createConferenceForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    console.log('Create conference form submitted');
+
+                    // Collect form data
+                    const name = document.getElementById('conference-name').value;
+                    const location = document.getElementById('conference-location').value;
+                    const date = document.getElementById('conference-date').value;
+                    const startTime = document.getElementById('start-time').value;
+                    const endTime = document.getElementById('end-time').value;
+                    const description = document.getElementById('conference-description').value;
+                    const registrationFee = document.getElementById('registration-fee').value;
+                    const maxCapacity = document.getElementById('max-capacity').value;
+
+                    const payload = {
+                        name,
+                        location,
+                        date,
+                        start_time: startTime,
+                        end_time: endTime,
+                        description,
+                        registration_fee: registrationFee,
+                        max_capacity: maxCapacity,
+                    };
+
+                    try {
+                        // Send the POST request to create a new conference
+                        const response = await fetch('http://35.209.245.183:3000/api/eventregistration', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload),
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            console.log('Conference created successfully:', result);
+                            messageDiv.textContent = 'Conference created successfully!';
+                            messageDiv.style.color = 'green';
+                            createConferenceForm.reset(); // Clear the form
+                        } else {
+                            console.error('Failed to create conference:', result.message || 'Unknown error');
+                            messageDiv.textContent = `Failed to create conference: ${result.message || 'Unknown error'}`;
+                            messageDiv.style.color = 'red';
+                        }
+                    } catch (error) {
+                        console.error('Error creating conference:', error);
+                        messageDiv.textContent = 'An error occurred. Please try again.';
+                        messageDiv.style.color = 'red';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
